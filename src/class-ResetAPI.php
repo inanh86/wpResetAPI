@@ -1,5 +1,5 @@
 <?php 
-namespace inanh86;
+namespace inanh86\Controller;
 
 defined("ABSPATH") || exit;
 
@@ -34,8 +34,8 @@ final class WpResetAPI {
 	public function __construct() {
         
 		$this->define_constants();
-        $this->init_hooks();
 		$this->includes();
+        $this->init_hooks();
     }
     /**
 	 * Define constant if not already set.
@@ -52,15 +52,16 @@ final class WpResetAPI {
         $this->define( 'API_ABSPATH', dirname( API_PLUGIN_FILE ) . '/' );
     }
     public function init_hooks() {
-        register_activation_hook( API_PLUGIN_FILE, array( 'API_Install', 'install' ) );
+        register_activation_hook( API_PLUGIN_FILE, array( '\inanh86\install\API_Install', 'install' ) );
     }
     private function includes() {
 
+		// File cài đặt khi tiến hành active plugins
 		include_once API_ABSPATH . 'src/class-Install.php';
 
-		// Import API
+		// Khởi chạy API
 		include_once API_ABSPATH . 'src/class-Api.php';
 		$this->API = new \inanh86\Api\Root();
-		$this->API->init(); // Khởi chạy API
+		$this->API->init();
     }
 }

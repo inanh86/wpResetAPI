@@ -8,7 +8,10 @@ if (!defined('ABSPATH')) {
 }
 class API_Install {
     public static function install() {
-        self::create_tables();
+		self::create_tables();
+		self::create_options();
+		self::remove_roles();
+		self::create_roles();
     }
     public static function create_tables() {
         global $wpdb;
