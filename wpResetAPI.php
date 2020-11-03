@@ -18,11 +18,11 @@ if ( !defined( "API_PLUGIN_DIR_PATH" ) ) {
 	define( "API_PLUGIN_DIR_PATH", plugins_url('' , __FILE__) );
 }
 // Include the main WooCommerce class.
-if ( ! class_exists( 'Hero_POS', false ) ) {
-	include_once dirname( API_PLUGIN_FILE ). '/src/class-pos.php';
+if ( ! class_exists( 'WpResetAPI', false ) ) {
+	include_once dirname( API_PLUGIN_FILE ). '/src/class-ResetAPI.php';
 }
-function POS86() {
-	return Hero_POS::instance();
+function WpResetAPI() {
+	return inanh86\WpResetAPI::instance();
 }
 // Global for backwards compatibility.
-$GLOBALS['pos'] = POS86();
+$GLOBALS['WpResetAPI'] = WpResetAPI();
