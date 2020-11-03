@@ -20,7 +20,7 @@ if ( !defined( "API_PLUGIN_DIR_PATH" ) ) {
 // tải các packages đc cài bằng composer
 require __DIR__ . './vendor/autoload.php';
 
-// Include the main WooCommerce class.
+// Include the main class.
 if ( ! class_exists( 'WpResetAPI', false ) ) {
 	include_once dirname( API_PLUGIN_FILE ). '/src/class-ResetAPI.php';
 }
