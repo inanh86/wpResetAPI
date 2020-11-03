@@ -1,7 +1,8 @@
 <?php namespace inanh86\Api;
 
-use WP_REST_Server;
 use \inanh86\Api\Permission;
+use WP_REST_Server;
+use WP_REST_Response;
 
 if(!defined('ABSPATH')) {
     exit;
@@ -32,7 +33,7 @@ class Resouce {
         return $khach_hang;
     }
     protected function Resouce($data) {
-        $resouce = new \WP_REST_Response( $data, 200 );
+        $resouce = new WP_REST_Response( $data, 200 );
         return $resouce;
     }
     protected function Error($data) {

@@ -1,5 +1,4 @@
-<?php 
-namespace inanh86\Controller;
+<?php namespace inanh86\Controller;
 
 defined("ABSPATH") || exit;
 

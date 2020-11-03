@@ -1,5 +1,4 @@
-<?php 
-namespace inanh86\Api;
+<?php namespace inanh86\Api;
 
 if (!defined('ABSPATH')) {
     exit;

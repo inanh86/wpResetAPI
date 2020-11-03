@@ -1,6 +1,4 @@
-<?php 
-
-namespace inanh86\Api;
+<?php namespace inanh86\Api;
 
 use inanh86\Api\Resouce;
 
@@ -28,12 +26,6 @@ class SanPham extends Resouce {
         return $router;
     }
     public function danh_sach_khach_hang($request) {
-        $token =  \inanh86\Api\Permission::encodeToken([
-"iss" => "http://example.org",
-    "aud" => "http://example.com",
-    "iat" => 1356999524,
-    "nbf" => 1357000000
-        ], 'example_key');
-        return $this->Resouce($token);
+        var_dump($request);
     }
 }

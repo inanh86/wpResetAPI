@@ -1,5 +1,4 @@
-<?php
-namespace inanh86\install;
+<?php namespace inanh86\install;
 
 use WP_Roles;
 
