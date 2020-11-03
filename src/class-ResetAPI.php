@@ -55,7 +55,12 @@ final class WpResetAPI {
         register_activation_hook( API_PLUGIN_FILE, array( 'API_Install', 'install' ) );
     }
     private function includes() {
-        
+
+		include_once API_ABSPATH . 'src/class-Install.php';
+
+		// Import API
+		include_once API_ABSPATH . 'src/class-Api.php';
+		$this->API = new \inanh86\Api\Root();
+		$this->API->init(); // Khởi chạy API
     }
-    
 }
