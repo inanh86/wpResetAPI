@@ -1,5 +1,4 @@
 <?php namespace inanh86\Api;
-
 use \Firebase\JWT\JWT;
 
 if(!defined('ABSPATH')) {

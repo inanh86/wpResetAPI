@@ -83,22 +83,25 @@ class API_Install {
 			'Khách hàng',
 			array(
 				'read' => true,
+				'level_0' => true
 			)
 		);
 		// Quản lý cửa hàng
 		add_role(
 			'api_shop_manager',
-			'Quản lý Cửa Hàng',
+			'Quản lý cửa hàng',
 			array(
 				'read' => true,
+				'level_9' => true
 			)
 		);
-		// Quản lý cửa hàng
+		// Nhân viên cửa hàng
 		add_role(
 			'api_shop_staff',
 			'Nhân viên',
 			array(
 				'read' => true,
+				'level_2' => true,
 			)
 		);
     }

@@ -17,11 +17,13 @@ class Resouce {
     protected $GET = \WP_REST_Server::READABLE;
     protected $POST = \WP_REST_Server::CREATABLE;
 
-    protected $code = null;
-
+    protected $loimaychu = 500;
+    protected $khongduoctruycap = 401;
+    
     public function __construct()
     {
         add_action('rest_api_init', [$this, 'dangky_route']);
+        add_filter('nocache_headers', [$this, 'nocache_headers']);
     }
     /**
      * Ghi đè lại routes mặt định của WPRESTAPI
@@ -54,5 +56,16 @@ class Resouce {
      */
     protected function Error($code, $content, $status) {
         return new \WP_Error($code, __($content, 'inanh86-api'), ['status'=>$status]);
+    }
+    /**
+     * Không lưu cache
+     */
+    public function nocache_headers() {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        return array(
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0, some-custom-thing',
+            'Pragma'        => 'no-cache',
+            'Expires'       => date('Y-m-d H:i:s G\M\T')
+        );
     }
 }
