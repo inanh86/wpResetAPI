@@ -51,11 +51,10 @@ class KhachHang extends \inanh86\Api\Resouce {
             if ( $user && wp_check_password( $pass, $user->data->user_pass, $user->ID ) ) {
                 $khach_hang = [
                     'login_status'  => true,
-                    'customer'      =>  $user->data->display_name,
+                    'customer'      => Permission::quyentruycap($user->ID),
                     'token'         => Permission::encodeToken([
-                        'permission' => $this->setQuyenTruyCap($user->ID),
-                        'cap'        => $this->lay_thong_tin($user->ID, 'api_capabilities'),
-                        'level'      => $this->lay_thong_tin($user->ID, 'api_user_level')
+                        'cap'       => $this->lay_thong_tin($user->ID, 'api_capabilities'),
+                        'permission'=> Permission::quyentruycap($user->ID),
                     ], $this->key_encode),
                 ];
                 return $this->Resouce($khach_hang);
@@ -79,12 +78,5 @@ class KhachHang extends \inanh86\Api\Resouce {
     private function lay_thong_tin($id, $key) {
         $thong_tin = get_user_meta($id, $key, true);
         return $thong_tin;
-    }
-    /**
-     * Thiết lập quyền truy cập của Clietn
-     * @param string $customer_id
-     */
-    private function setQuyenTruyCap($customer_id) {
-
     }
 }

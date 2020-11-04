@@ -15,8 +15,9 @@ class Permission {
         try {
             if( !empty($request['oauth_signature_token']) ) {
                 
-                $oauth_signature_token = self::decodeToken(sanitize_text_field($request['oauth_signature_token']), 'example_key');
-                return self::quyen_truy_cap($oauth_signature_token, $request);
+                $oauth_signature_token = self::decodeToken(sanitize_text_field($request['oauth_signature_token']), 'api_client_login');
+
+                return self::kiem_tra_quyen_truy_cap($oauth_signature_token, $request);
 
             } else {
                 throw new \Exception("Không tìm thấy oauth_signature_token trong yêu cầu gữi lên của bạn!");
@@ -30,7 +31,7 @@ class Permission {
      * @param array $oauth_signature
      * @param object $request
      */
-    public static function quyen_truy_cap($oauth_signature, $request) {
+    public static function kiem_tra_quyen_truy_cap($oauth_signature, $request) {
         return $request;
     }
     /**
@@ -51,5 +52,19 @@ class Permission {
     public static function decodeToken($token, $key) {
         $decode = JWT::decode($token, $key, array('HS256'));
         return $decode;
+    }
+    /**
+     * Thiết lập quyền truy cập cho từng Role
+     * @param string
+     */
+    public static function quyentruycap($customer_id) {
+
+        $customer = new \WP_User($customer_id);
+        if ( array_intersect( ['administrator', 'api_shop_manager'], (array) $customer->roles ) ) {
+            $customer = '';
+        } else {
+            return ' không phải admin';
+        }
+
     }
 }
