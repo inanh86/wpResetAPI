@@ -1,8 +1,6 @@
 <?php namespace inanh86\Api;
 
 use \inanh86\Api\Permission;
-use WP_REST_Server;
-use WP_REST_Response;
 
 if(!defined('ABSPATH')) {
     exit;
@@ -12,8 +10,15 @@ class Resouce {
 
     public $namespace = 'vendor/v1';
 
-    public $GET = WP_REST_Server::READABLE;
-    
+    /**
+     * Method Đẩy lên từ Client
+     * @param string 
+     */
+    protected $GET = \WP_REST_Server::READABLE;
+    protected $POST = \WP_REST_Server::CREATABLE;
+
+    protected $code = null;
+
     public function __construct()
     {
         add_action('rest_api_init', [$this, 'dangky_route']);
@@ -32,11 +37,22 @@ class Resouce {
         $khach_hang = Permission::init($request);
         return $khach_hang;
     }
-    protected function Resouce($data) {
-        $resouce = new WP_REST_Response( $data, 200 );
-        return $resouce;
+    /**
+     * nhận tham số đầu vào và trả json về cho Client
+     * @since 1.0
+     * @param object $data
+     * @param string $code
+     */
+    protected function Resouce($data, $code=null) {
+        return new \WP_REST_Response( $data, ( isset($code) ) ? $code : $code = 200 );
     }
-    protected function Error($data) {
-
+    /**
+     * Thông báo lổi cho client nếu có 
+     * @param string $code {filter code}
+     * @param string $content {nội dung báo lổi}
+     * @param string $status {trang thái trả về}
+     */
+    protected function Error($code, $content, $status) {
+        return new \WP_Error($code, __($content, 'inanh86-api'), ['status'=>$status]);
     }
 }

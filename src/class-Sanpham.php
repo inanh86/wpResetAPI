@@ -1,7 +1,5 @@
 <?php namespace inanh86\Api;
 
-use inanh86\Api\Resouce;
-
 if(!defined('ABSPATH')) {
     exit;
 }
@@ -9,7 +7,7 @@ if(!defined('ABSPATH')) {
  * Lấy sản phẩm từ API 
  * @since 0.1
  */
-class SanPham extends Resouce {
+class SanPham extends \inanh86\Api\Resouce {
     
     protected $base = '/san-pham';
 
