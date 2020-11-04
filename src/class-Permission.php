@@ -11,11 +11,11 @@ class Permission {
      * Nhận giá chị $request truyền vào
      * @param object $request
      */
-    public static function init($request) {
+    public static function init($request, $key) {
         try {
             if( !empty($request['oauth_signature_token']) ) {
                 
-                $oauth_signature_token = self::decodeToken(sanitize_text_field($request['oauth_signature_token']), 'api_client_login');
+                $oauth_signature_token = self::decodeToken(sanitize_text_field($request['oauth_signature_token']), $key);
 
                 return self::kiem_tra_quyen_truy_cap($oauth_signature_token, $request);
 
@@ -32,6 +32,7 @@ class Permission {
      * @param object $request
      */
     public static function kiem_tra_quyen_truy_cap($oauth_signature, $request) {
+        
         return $request;
     }
     /**
@@ -57,14 +58,21 @@ class Permission {
      * Thiết lập quyền truy cập cho từng Role
      * @param string
      */
-    public static function quyentruycap($customer_id) {
+    public static function setQuyentruycap($customer_id) {
 
         $customer = new \WP_User($customer_id);
-        if ( array_intersect( ['administrator', 'api_shop_manager'], (array) $customer->roles ) ) {
-            $customer = '';
-        } else {
-            return ' không phải admin';
-        }
 
+        if ( array_intersect( ['administrator', 'api_shop_manager'], (array) $customer->roles ) ) {
+            $permission = [
+                'read' => true,
+                'write' => true
+            ];
+        } else {
+            $permission = [
+                'read' => true,
+                'write' => false
+            ];
+        }
+        return $permission;
     }
 }

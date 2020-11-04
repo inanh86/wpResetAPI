@@ -35,10 +35,6 @@ class Resouce {
         $router = register_rest_route($this->namespace, $base, $routes);
         return $router;
     }
-    public function kientraquyentruycap($request) {
-        $khach_hang = Permission::init($request);
-        return $khach_hang;
-    }
     /**
      * nhận tham số đầu vào và trả json về cho Client
      * @since 1.0

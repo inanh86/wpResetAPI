@@ -20,7 +20,23 @@ class KhachHang extends \inanh86\Api\Resouce {
                 'permission_callback' => '__return_true'
             ]
         ]);
+        // đăng nhập khách hàng
+        $router = $this->router($this->base.'/edit', [
+            [
+                'methods'             => $this->POST,
+                'callback'            => [$this, 'customer_edit'],
+                'permission_callback' => [$this, 'permission']
+            ]
+        ]);
         return $router;
+    }
+    /**
+     * Kiểm tra Token của Client gữi lên
+     * @since 0.1
+     */
+    public function permission($request) {
+        $request = permission::init($request, $this->key_encode);
+        return $request;
     }
     /**
      * Trả ra kết quả đăng nhập cho khách hàng
@@ -38,6 +54,9 @@ class KhachHang extends \inanh86\Api\Resouce {
         return $khach_hang;
 
     }
+    public function customer_edit($request) {
+        return $this->Resouce($request);
+    }
     /**
      * Kiểm tra đăng nhập
      * nhận 2 giá trị $user,$pass
@@ -51,11 +70,12 @@ class KhachHang extends \inanh86\Api\Resouce {
             if ( $user && wp_check_password( $pass, $user->data->user_pass, $user->ID ) ) {
                 $khach_hang = [
                     'login_status'  => true,
-                    'customer'      => Permission::quyentruycap($user->ID),
-                    'token'         => Permission::encodeToken([
+                    'customer'      => $user->data->display_name,
+                    'oauth_signature_token'         => Permission::encodeToken([
                         'cap'       => $this->lay_thong_tin($user->ID, 'api_capabilities'),
-                        'permission'=> Permission::quyentruycap($user->ID),
+                        'permission'=> Permission::setQuyentruycap($user->ID),
                     ], $this->key_encode),
+                    'content'       => 'Chào mừng bạn quy trở lại',
                 ];
                 return $this->Resouce($khach_hang);
             } else {
