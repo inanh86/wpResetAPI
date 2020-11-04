@@ -10,7 +10,7 @@ class Root {
         $this->register_resources();
     }
     protected function include() {
-
+        
         include_once( dirname( __FILE__ ) ) . '/class-Permission.php';
         include_once( dirname( __FILE__ ) ) . '/class-Resouce.php';
         include_once( dirname( __FILE__ ) ) . '/class-Khachhang.php';
