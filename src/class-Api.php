@@ -21,7 +21,7 @@ class Root {
      * @since 0.1
      */
     protected function include() {
-
+        
         include_once( dirname( __FILE__ ) ) . '/class-Permission.php';
         include_once( dirname( __FILE__ ) ) . '/class-Resouce.php';
         include_once( dirname( __FILE__ ) ) . '/class-Khachhang.php';
