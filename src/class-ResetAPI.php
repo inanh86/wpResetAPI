@@ -51,8 +51,8 @@ final class WpResetAPI {
         $this->define( 'API_ABSPATH', dirname( API_PLUGIN_FILE ) . '/' );
     }
     public function init_hooks() {
-        register_activation_hook( API_PLUGIN_FILE, array( '\inanh86\install\API_Install', 'install' ) );
-    }
+		register_activation_hook( API_PLUGIN_FILE, array( '\inanh86\install\API_Install', 'install' ) );
+	}
     private function includes() {
 
 		// File cài đặt khi tiến hành active plugins

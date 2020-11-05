@@ -4,11 +4,22 @@ if (!defined('ABSPATH')) {
     exit;
 }
 class Root {
-    
+
+    // namespace endpoint
+    public $namespace = 'vendor/v1'; 
+
+    /**
+     * Run chương trình
+     * @since 0.1
+     */
     public function init() {
         $this->include();
         $this->register_resources();
     }
+    /**
+     * Nhập toàn bộ các class 
+     * @since 0.1
+     */
     protected function include() {
 
         include_once( dirname( __FILE__ ) ) . '/class-Permission.php';
@@ -29,7 +40,7 @@ class Root {
 			)
 		);
 		foreach ( $api_classes as $api_class ) {
-			$this->$api_class = new $api_class();
+			$this->$api_class = new $api_class($this->namespace);
 		}
     }
 }
