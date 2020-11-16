@@ -1,14 +1,12 @@
 <?php namespace inanh86\Api;
 
-use \inanh86\Api\Permission;
-
 if(!defined('ABSPATH')) {
     exit;
 }
 
 class Resouce {
 
-    public $namespace = 'vendor/v1';
+    public $namespace = null;
 
     /**
      * Method Đẩy lên từ Client
@@ -20,8 +18,9 @@ class Resouce {
     protected $loimaychu = 500;
     protected $khongduoctruycap = 401;
     
-    public function __construct()
-    {
+    public function __construct($namespace)
+    {   
+        $this->namespace = $namespace;
         add_action('rest_api_init', [$this, 'dangky_route']);
         add_filter('nocache_headers', [$this, 'nocache_headers']);
     }
