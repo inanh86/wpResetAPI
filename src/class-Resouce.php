@@ -1,5 +1,7 @@
 <?php namespace inanh86\Api;
 
+use \inanh86\Api\Permission; 
+
 if(!defined('ABSPATH')) {
     exit;
 }
@@ -7,6 +9,10 @@ if(!defined('ABSPATH')) {
 class Resouce {
 
     public $namespace = null;
+    
+    protected $key_encode = 'api_customer_key';
+
+    protected $db = null;
 
     /**
      * Method Đẩy lên từ Client
@@ -20,6 +26,9 @@ class Resouce {
     
     public function __construct($namespace)
     {   
+        global $wpdb;
+        $this->db = $wpdb;
+        //
         $this->namespace = $namespace;
         add_action('rest_api_init', [$this, 'dangky_route']);
         add_filter('nocache_headers', [$this, 'nocache_headers']);
@@ -33,6 +42,15 @@ class Resouce {
     protected function router($base, $routes) {
         $router = register_rest_route($this->namespace, $base, $routes);
         return $router;
+    }
+    /**
+     * Kiểm tra Token của Client gữi lên
+     * @param object $request
+     * @since 0.1
+     */
+    public function kiem_tra_token($request) {
+        $request = permission::init($request, $this->key_encode);
+        return $request;
     }
     /**
      * nhận tham số đầu vào và trả json về cho Client

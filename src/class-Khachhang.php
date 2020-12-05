@@ -9,7 +9,6 @@ class KhachHang extends \inanh86\Api\Resouce {
 
     protected $base = '/khach-hang';
     protected $code_error = 'api_customer_error';
-    protected $key_encode = 'api_customer_key';
 
     public function dangky_route() {
 
@@ -40,15 +39,6 @@ class KhachHang extends \inanh86\Api\Resouce {
         return $router;
     }
     /**
-     * Kiểm tra Token của Client gữi lên
-     * @param object $request
-     * @since 0.1
-     */
-    public function kiem_tra_token($request) {
-        $request = permission::init($request, $this->key_encode);
-        return $request;
-    }
-    /**
      * Lấy danh sách khách hàng
      * @since 0.1
      */
@@ -72,6 +62,7 @@ class KhachHang extends \inanh86\Api\Resouce {
         return $khach_hang;
     }
     public function customer_edit($request) {
+        
         return $this->Resouce($request);
     }
     /**
@@ -92,9 +83,11 @@ class KhachHang extends \inanh86\Api\Resouce {
                     'customer'      => $user->data->display_name,
                     'content'       => 'Chào mừng bạn quy trở lại',
                     'oauth_signature_token'  => Permission::encodeToken([
+                        'customer_id' => $user->ID,
                         'cap'       => $this->lay_thong_tin($user->ID, 'api_capabilities'),
                         'permission'=> Permission::setQuyentruycap($user->ID),
                     ], $this->key_encode),
+                    'cookie' => null
                 ];
                 return $this->Resouce($khach_hang);
             } else {

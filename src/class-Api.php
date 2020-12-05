@@ -24,8 +24,10 @@ class Root {
         
         include_once( dirname( __FILE__ ) ) . '/class-Permission.php';
         include_once( dirname( __FILE__ ) ) . '/class-Resouce.php';
+        //
         include_once( dirname( __FILE__ ) ) . '/class-Khachhang.php';
         include_once( dirname( __FILE__ ) ) . '/class-Sanpham.php';
+        include_once( dirname( __FILE__ ) ) . '/class-Danhmuc.php';
 
     }
     /**
@@ -36,7 +38,8 @@ class Root {
         $api_classes = apply_filters( 'api_new_class',
 			array(
 				'\inanh86\Api\SanPham',
-				'\inanh86\Api\Khachhang'
+                '\inanh86\Api\Khachhang',
+                '\inanh86\Api\Danhmuc'
 			)
 		);
 		foreach ( $api_classes as $api_class ) {
