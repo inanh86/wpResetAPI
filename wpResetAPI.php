@@ -25,7 +25,7 @@ if ( ! class_exists( 'WpResetAPI', false ) ) {
 	include_once dirname( API_PLUGIN_FILE ). '/src/class-ResetAPI.php';
 }
 function WpResetAPI() {
-	return inanh86\Controller\WpResetAPI::instance();
+	return \inanh86\Controller\WpResetAPI::instance();
 }
 // Global for backwards compatibility.
 $GLOBALS['WpResetAPI'] = WpResetAPI();
