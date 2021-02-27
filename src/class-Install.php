@@ -1,11 +1,13 @@
-<?php namespace inanh86\install;
+<?php namespace inanh86\Controller;
 
 use WP_Roles;
 
 if (!defined('ABSPATH')) {
 	exit;
 }
+
 class API_Install {
+	
     public static function install() {
 		self::create_tables();
 		self::create_options();

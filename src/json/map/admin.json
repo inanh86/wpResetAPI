@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Home",
+    "path": "/",
+    "screen": "screenPage"
+  },
+  {
+    "title": "Quản lý Đơn hàng",
+    "path": "/don-hang",
+    "screen": "screenOrder"
+  }
+]

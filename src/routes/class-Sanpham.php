@@ -1,4 +1,4 @@
-<?php namespace inanh86\Api;
+<?php namespace inanh86\Routes;
 
 if(!defined('ABSPATH')) {
     exit;

@@ -1,7 +1,10 @@
-<?php namespace inanh86\Controller;
+<?php defined("ABSPATH") || exit;
 
-defined("ABSPATH") || exit;
-
+/**
+ * Run App
+ * @version 1.0
+ * @see link
+ */
 final class WpResetAPI {
     /**
 	 * Point Of Sale version.
@@ -46,20 +49,31 @@ final class WpResetAPI {
 		if ( ! defined( $name ) ) {
 			define( $name, $value );
 		}
-    }
+	}
+	/**
+	 * Defined 
+	 */
     private function define_constants() {
         $this->define( 'API_ABSPATH', dirname( API_PLUGIN_FILE ) . '/' );
-    }
-    public function init_hooks() {
-		register_activation_hook( API_PLUGIN_FILE, array( '\inanh86\install\API_Install', 'install' ) );
 	}
+	/**
+	 * Hook Default
+	 */
+    public function init_hooks() {
+		register_activation_hook( API_PLUGIN_FILE, array( '\inanh86\Controller\API_Install', 'install' ) );
+	}
+	/**
+	 * Import các module cần
+	 */
     private function includes() {
-
 		// File cài đặt khi tiến hành active plugins
 		include_once API_ABSPATH . 'src/class-Install.php';
 
+		// function Core 
+		include_once API_ABSPATH . 'src/function-cores.php';
+		
 		// Khởi chạy API
-		include_once API_ABSPATH . 'src/class-Api.php';
+		include_once API_ABSPATH . 'src/api/class-Api.php';
 		$this->API = new \inanh86\Api\Root();
 		$this->API->init();
     }

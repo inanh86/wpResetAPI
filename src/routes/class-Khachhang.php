@@ -1,10 +1,9 @@
-<?php namespace inanh86\Api;
-
-use \inanh86\Api\Permission; 
+<?php namespace inanh86\Routes;
 
 if(!defined('ABSPATH')) {
     exit;
 }
+
 class KhachHang extends \inanh86\Api\Resouce {
 
     protected $base = '/khach-hang';
@@ -12,7 +11,7 @@ class KhachHang extends \inanh86\Api\Resouce {
 
     public function dangky_route() {
 
-         // Danh Sách Khách Hàng
+        // Danh Sách Khách Hàng
         $router = $this->router($this->base.'/', [
             [
                 'methods'             => $this->GET,
@@ -53,9 +52,11 @@ class KhachHang extends \inanh86\Api\Resouce {
      */
     public function dang_nhap($request) {
         if(!empty($request['username']) && !empty($request['password'])) {
-            $user = sanitize_text_field($request['username']);
-            $pass = sanitize_text_field($request['password']);
-            $khach_hang = $this->kiem_tra($user, $pass);
+            $Client = new \inanh86\Api\auth\Dangnhap($request['username'],$request['password']));
+            return $this->Resouce([
+                'Client' => $Client->goiProfile(),
+                'AppMap' => $Client->goiMap(),
+            ]);
         } else {
             $khach_hang = $this->Error($this->code_error, 'không tìm thấy tên đăng nhập hoặc mật khẩu của bạn', $this->khongduoctruycap);
         }
@@ -76,27 +77,24 @@ class KhachHang extends \inanh86\Api\Resouce {
         try {
             $user = get_user_by( 'login', $user );
             if ( $user && wp_check_password( $pass, $user->data->user_pass, $user->ID ) ) {
-                $khach_hang = [
-                    'login_status'  => true,
-                    'ID'            => $user->ID,
-                    'user'          => $user->data->user_nicename,
-                    'customer'      => $user->data->display_name,
-                    'content'       => 'Chào mừng bạn quy trở lại',
-                    'oauth_signature_token'  => Permission::encodeToken([
-                        'customer_id' => $user->ID,
-                        'cap'       => $this->lay_thong_tin($user->ID, 'api_capabilities'),
-                        'permission'=> Permission::setQuyentruycap($user->ID),
-                    ], $this->key_encode),
-                    'cookie' => null
-                ];
-                return $this->Resouce($khach_hang);
+                return $this->Resouce([
+                    'id_khach_hang'          => $user->ID,
+                    'ten_khach_hang'         => $user->data->display_name,
+                    'trang_thai'             => true,
+                    'oauth_signature_token'  => $this->encode_token(
+                        [
+                            'id'    => $user->ID,
+                            'cap'   => $this->lay_thong_tin($user->ID, 'api_capabilities'),
+                            'permission' => Permission::setQuyentruycap($user->ID)
+                        ]
+                    ),
+                    'App_Map' => new \inanh86\AppMenu\Menu($user->ID)
+                ]);
             } else {
-                $khach_hang = [
-                    'login_status' => false,
-                    'customer' => 'khách hàng',
-                    'content' => 'Tài khoản hoặc mật khẩu của bạn không đúng rồi!'
-                ];
-                return $this->Resouce($khach_hang, $this->khongduoctruycap);
+                return $this->Resouce([
+                    'trang_thai' => false,
+                    'ten_khach_hang' => 'khách hàng',
+                ], $this->khongduoctruycap);
             }
         } catch(\Exception $e) {
             return $this->Error($this->code_error, $e->getMessage(), $this->loimaychu);
