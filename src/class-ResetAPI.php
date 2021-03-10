@@ -34,7 +34,6 @@ final class WpResetAPI {
 		return self::$_instance;
 	}
 	public function __construct() {
-        
 		$this->define_constants();
 		$this->includes();
         $this->init_hooks();
@@ -66,15 +65,19 @@ final class WpResetAPI {
 	 * Import các module cần
 	 */
     private function includes() {
-		// File cài đặt khi tiến hành active plugins
-		include_once API_ABSPATH . 'src/class-Install.php';
-
-		// function Core 
-		include_once API_ABSPATH . 'src/function-cores.php';
 		
+		include_once API_ABSPATH . 'src/class-Install.php'; // File cài đặt khi tiến hành active plugins
+
+		include_once API_ABSPATH . 'src/class-error.php'; // Khai báo lổi nếu có 
+
+		include_once API_ABSPATH . 'src/db/class-db.php'; //
+		include_once API_ABSPATH . 'src/db/class-customer.php'; //
+
+		include_once API_ABSPATH . 'src/function-cores.php'; // function Core 
+
 		// Khởi chạy API
-		include_once API_ABSPATH . 'src/api/class-Api.php';
-		$this->API = new \inanh86\Api\Root();
+		include_once API_ABSPATH . 'src/class-Api.php';
+		$this->API = new \inanh86\Controller\Root();
 		$this->API->init();
     }
 }

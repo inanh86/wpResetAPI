@@ -1,41 +1,37 @@
-<?php namespace inanh86\Auth;
+<?php namespace inanh86\Modules\Auth;
 
 use \Firebase\JWT\JWT;
-use WP_User as User;
-use Exception as Baoloi; 
+use inanh86\Controller\Baoloi;
 
 if(!defined('ABSPATH')) {
     exit;
 }
 
 /**
- * Kiểm tra quyền truy cập của Client
- * @since 1.0
+ * Modules Xử lý token cho client
  */
-class Permission {
+class Token {
 
-    // Setup Mã lổi Khi thao tác 
-    public const TAIKHOANFAIL = 1001;
-    public const TOKENFAIL = 1002;
-    public const QUYENGHI = 1003;
-   
+    const TOKEN_COKE = 'inanh86_rest_api_token_error';
+    const TOKENFAIL = 1002;
+    const QUYENGHI = 1003;
+    
     /**
      * Kiểm tra quyền đọc
-     * @param object $request <- giá trị client truyền lên
-     * @param string $key <- khóa servers
+     * @param object $request giá trị client truyền lên
+     * @param string $key khóa servers
      * @since 1.0
      */
-    public static function Read($request, $key) {
+    public static function Read($token, $key) {
         try {
-            $token = $request;
-            if ( isset($token) && !empty($token)) {
+            if ( isset($token) && !empty($token) ) {
                 $token = self::decodeToken($token, $key);
                 return $token;
             } else {
-                throw new \Exception("Token không tồn tài hoặc đã hết hạn!");
+                throw new \Exception("Token không tồn tài hoặc đã hết hạn!", self::TOKENFAIL);
             }
         } catch (\Exception $e) {
-            return new \WP_Error(self::TOKENFAIL, $e->getMessage(), ['status'=>200]);
+            return new Baoloi(self::TOKEN_COKE, $e->getMessage());
         }
     }
     /**
@@ -53,7 +49,7 @@ class Permission {
             }
             
         } catch (\Exception $e) {
-            return new \WP_Error(self::QUYENGHI, $e->getMessage(), ['status'=>200]);
+            return new Baoloi(self::QUYENGHI, $e->getMessage());
         }
     }
     /**
@@ -74,26 +70,5 @@ class Permission {
     public static function decodeToken($token, $key) {
         $decode = JWT::decode($token, $key, array('HS256'));
         return $decode;
-    }
-    /**
-     * Thiết lập quyền truy cập cho từng Role
-     * @param int $ID id client truyền vào
-     */
-    public static function setQuyentruycap($ID) {
-
-        $customer = self::UserName($ID);
-
-        if ( array_intersect( ['administrator', 'api_shop_manager'], (array) $customer->roles ) ) {
-            $permission = [
-                'read' => true,
-                'write' => true
-            ];
-        } else {
-            $permission = [
-                'read' => true,
-                'write' => false
-            ];
-        }
-        return $permission;
     }
 }

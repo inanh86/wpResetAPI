@@ -1,16 +1,23 @@
 <?php namespace inanh86\Controller;
+
+use \WP_REST_Server as Maychu;
+use inanh86\Modules\Auth\Token;
+use inanh86\Modules\Auth\Accounts as Taikhoan;
+use inanh86\Controller\Baoloi;
+use \Exception;
+
 if(!defined('ABSPATH')) {
     exit;
 }
-
-use \WP_REST_Server as Maychu;
-use inanh86\Api\Auth\Permission as Token;
-
+/**
+ * Cấu hình lại Server Request Của Wordpress
+ * @see link 
+ * @version 
+ */
 class Servers {
     
     public $namespace = null;
     protected $db = null;
-    protected $key = Token::KEY_ACCOUNT;
 
     /**
      * Method Đẩy lên từ Client
@@ -43,7 +50,6 @@ class Servers {
     /**
      * Loại bỏ wp-json mặc định của Wp
      * @link https://developer.wordpress.org/reference/hooks/rest_index/
-     * @since 1.0
      */
     private function setDefaultRestAPI() {
         add_filter('rest_endpoints', function($endpoints) {
@@ -68,7 +74,6 @@ class Servers {
      * Ghi đè lại routes mặt định của WPRESTAPI
      * @param string $base
      * @param array $route
-     * @since 0.1
      */
     protected function router($base=null, $routes) {
         $router = register_rest_route( $this->namespace, $base, $routes );
@@ -77,23 +82,18 @@ class Servers {
     /**
      * kiểm tra quyền đọc của client
      * @param object $request
-     * @since 1.0
      */
     public function permission_read($request) {
-        $read = Token::Read($request['oauth_signature_token'], $this->key);
-        return $read;
+        return Token::Read($request['oauth_signature_token'], Taikhoan::KEY_ACCOUNT_TOKEN);
     }
     /**
      * Kiểm tra quyền ghi/xóa của client
-     * @since 1.0
      */
     public function permission_write($request) {
-        $write = Token::Write($request['oauth_signature_token'], $this->key);
-        return $write;
+        return Token::Write($request['oauth_signature_token'], Taikhoan::KEY_ACCOUNT_TOKEN);
     }
     /**
-     * nhận tham số đầu vào và trả json về cho Client
-     * @since 1.0
+     * Nhận tham số đầu vào và trả json về cho Client
      * @param object $data
      * @param string $code
      */
@@ -101,13 +101,12 @@ class Servers {
         return new \WP_REST_Response( $data, ( isset($code) ) ? $code : $code = 200 );
     }
     /**
-     * Thông báo lổi cho client nếu có 
-     * @param string $code {filter code}
-     * @param string $content {nội dung báo lổi}
-     * @param string $status {trang thái trả về}
+     * Nhận lổi vào trả ra về cho client
+     * @param string $messege thông tin lổi báo
+     * @param int $code mã lổi
      */
-    protected function Error($code, $content) {
-        return new \WP_Error($code, __($content, 'inanh86-api'), ['status'=> 200]);
+    protected function Baoloi($messege, $code=null) {
+        return new Baoloi($code, $messege);
     }
     /**
      * Không lưu cache

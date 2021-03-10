@@ -28,12 +28,10 @@ class Root {
         include_once dirname( __FILE__ )  . '/class-servers.php';
        
         // Auth User
-        include_once dirname( __FILE__ )  . '/auth/class-permission.php';
-        include_once dirname( __FILE__ )  . '/auth/class-auth.php';
-
-        // All modules
-        include_once dirname( __FILE__ )  . '/class-db.php';
-        include_once dirname( __FILE__ )  . '/class-Danhmuc.php';
+        include_once dirname( __FILE__ )  . '/modules/auth/class-token.php';
+        
+        // import all modules
+        include_once dirname( __FILE__ )  . '/modules/auth/class-account.php';
     }
     /**
      * Gọi danh sách Endpoint
@@ -41,10 +39,9 @@ class Root {
      * @version 1
      */
     protected function handle_v1_rest_api_request() {
-        // All API Requset
-        include_once dirname( __FILE__ )  . '/routes/class-Taikhoan.php';
-        include_once dirname( __FILE__ )  . '/routes/class-Sanpham.php'; 
-        include_once dirname( __FILE__ )  . '/routes/class-Danhmuc.php'; 
+        // All API Requset Endpoint
+        include_once dirname( __FILE__ )  . '/routes/class-taikhoan.php';
+        include_once dirname( __FILE__ )  . '/routes/class-danhmuc.php'; 
     }
     /**
      * Gọi tất cả các lớp đã đc đăng ký
@@ -53,9 +50,8 @@ class Root {
     protected function register_resources() {
         $api_classes = apply_filters( 'api_new_class',
 			array(
-                '\inanh86\Endpoint\QuanlyTaiKhoan',
-				'\inanh86\Endpoint\SanPham',
-                '\inanh86\Endpoint\Danhmuc'
+                '\inanh86\Routes\Taikhoan',
+                '\inanh86\Routes\Danhmuc'
 			)
 		);
 		foreach ( $api_classes as $api_class ) {

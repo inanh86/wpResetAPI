@@ -17,7 +17,7 @@ class API_Install {
     public static function create_tables() {
         global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		$wpdb->hide_errors();
+		$wpdb->show_errors();
 		$collate = '';
 		if ($wpdb->has_cap('collation')) {
 			$collate = $wpdb->get_charset_collate();
@@ -57,9 +57,36 @@ class API_Install {
 			) $collate; 
 		";
 		dbDelta($create_order_meta);
+
+		// khởi tạo bảng customer
+		$create_customer = "
+			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}khach_hang (
+			khach_hang_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			login varchar(60) DEFAULT NULL,
+			pass varchar(255) DEFAULT NULL,
+			phone varchar(60) DEFAULT NULL,
+			email varchar(100) DEFAULT NULL,
+			ngay_dang_ky datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+			activation_key varchar(255) DEFAULT NULL,
+			status INT(11) NOT NULL DEFAULT '0',
+			PRIMARY KEY (khach_hang_id)
+			) $collate; 
+		";
+		dbDelta($create_customer);
+
+		// khởi tạo bảng customer_meta
+		$create_customer_meta = "
+			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}khach_hang_meta (
+			khach_hang_meta_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			khach_hang_id BIGINT(20) UNSIGNED NOT NULL DEFAULT '0',
+			meta_key varchar(255) DEFAULT NULL,
+            meta_value longtext NOT NULL,
+			PRIMARY KEY (khach_hang_meta_id)
+			) $collate; 
+		";
+		dbDelta($create_customer_meta);
     }
-    public static function create_options()
-	{
+    public static function create_options() {
 		// Add default settings if not exists for normal installation
 		$settings = get_option('api_settings');
 		if (empty($settings)) {
@@ -68,8 +95,7 @@ class API_Install {
 			update_option('api_settings', $settings, "no");
 		}
     }
-    public static function create_roles()
-	{
+    public static function create_roles() {
 		global $wp_roles;
 
 		if (!class_exists('WP_Roles')) {
@@ -110,8 +136,7 @@ class API_Install {
     /**
 	 * Remove WooCommerce roles.
 	 */
-	public static function remove_roles()
-	{
+	public static function remove_roles() {
 		global $wp_roles;
 
 		if (!class_exists('WP_Roles')) {
