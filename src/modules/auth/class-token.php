@@ -12,7 +12,7 @@ if(!defined('ABSPATH')) {
  */
 class Token {
 
-    const TOKEN_COKE = 'inanh86_rest_api_token_error';
+    const TOKEN_CODE = 'inanh86_rest_api_token_error';
     const TOKENFAIL = 1002;
     const QUYENGHI = 1003;
     
@@ -23,15 +23,11 @@ class Token {
      * @since 1.0
      */
     public static function Read($token, $key) {
-        try {
-            if ( isset($token) && !empty($token) ) {
-                $token = self::decodeToken($token, $key);
-                return $token;
-            } else {
-                throw new \Exception("Token không tồn tài hoặc đã hết hạn!", self::TOKENFAIL);
-            }
-        } catch (\Exception $e) {
-            return new Baoloi(self::TOKEN_COKE, $e->getMessage());
+        $read = self::decodeToken($token, $key);
+        if($read->permission->read === true ) {
+            return $read;
+        } else {
+            throw new \Exception("Bạn không có quyền truy cập rồi :(");
         }
     }
     /**
@@ -40,16 +36,11 @@ class Token {
      * @param string $key
      */
     public static function Write($token, $key) {
-         try {
-            $token = self::decodeToken($token, $key);
-            if ($token->permission->write === true && $token->permission->read === true ) {
-                return $token;
-            } else {
-                throw new \Exception("Bạn không có quyền truy chỉnh sửa nội dung này.");   
-            }
-            
-        } catch (\Exception $e) {
-            return new Baoloi(self::QUYENGHI, $e->getMessage());
+         $token = self::decodeToken($token, $key);
+        if ($token->permission->write === true && $token->permission->read === true ) {
+            return $token;
+        } else {
+            throw new \Exception("Bạn không có quyền truy chỉnh sửa nội dung này.");   
         }
     }
     /**
@@ -68,7 +59,9 @@ class Token {
      * @since 1.0
      */
     public static function decodeToken($token, $key) {
-        $decode = JWT::decode($token, $key, array('HS256'));
-        return $decode;
+        if(empty($token) || $token === NULL) {
+            return new \WP_Error(self::TOKEN_CODE, 'Token của bạn không tồn tại.', ['status' => 400]);
+        }
+        return JWT::decode($token, $key, array('HS256'));
     }
 }

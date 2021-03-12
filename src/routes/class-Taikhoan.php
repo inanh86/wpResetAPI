@@ -48,7 +48,7 @@ class Taikhoan extends Servers {
         try {
            return $this->Resouce(Client::goi_danh_sach($requset['start'], $requset['limit']));
         } catch (\Exception $e) {
-            return $this->Baoloi($e->getCode(), $e->getMessage());
+            return new $this->Baoloi($e->getCode(), $e->getMessage());
         }
     }
     /**

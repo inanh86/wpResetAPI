@@ -70,9 +70,6 @@ final class WpResetAPI {
 
 		include_once API_ABSPATH . 'src/class-error.php'; // Khai báo lổi nếu có 
 
-		include_once API_ABSPATH . 'src/db/class-db.php'; //
-		include_once API_ABSPATH . 'src/db/class-customer.php'; //
-
 		include_once API_ABSPATH . 'src/function-cores.php'; // function Core 
 
 		// Khởi chạy API

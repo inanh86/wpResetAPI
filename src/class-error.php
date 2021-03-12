@@ -14,15 +14,15 @@ class Baoloi {
      * @param object $action báo cáo hành động dẫn tới lổi
      */
     public function __construct($code, $messege, $action=null) {
-        $error = new WP_Error($code, $messege, ['status' => 200]);
-        return $error;
+        return $this->save($code, $messege, $action=null);
     }
     /**
      * Ghi lổi vào database 
      * @param string $error
      */
-    function save($error) {
-        global $wpdb;
+    function save($code, $messege, $action=null) {
+        $error = new WP_Error($code, $messege,['status' => 400]);
+        return $error;
         
     }
 }

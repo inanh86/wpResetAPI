@@ -5,6 +5,8 @@ use inanh86\Modules\Auth\Token;
 use inanh86\Modules\Auth\Accounts as Taikhoan;
 use inanh86\Controller\Baoloi;
 use \Exception;
+use Throwable;
+use WP_Error;
 
 if(!defined('ABSPATH')) {
     exit;
@@ -84,13 +86,21 @@ class Servers {
      * @param object $request
      */
     public function permission_read($request) {
-        return Token::Read($request['oauth_signature_token'], Taikhoan::KEY_ACCOUNT_TOKEN);
+        try {
+            return Token::Read($request['oauth_signature_token'], Taikhoan::KEY_ACCOUNT_TOKEN);
+        } catch (\Throwable $th) {
+            return $this->Baoloi(Token::TOKEN_CODE, $th->getMessage());
+        }
     }
     /**
      * Kiểm tra quyền ghi/xóa của client
      */
     public function permission_write($request) {
-        return Token::Write($request['oauth_signature_token'], Taikhoan::KEY_ACCOUNT_TOKEN);
+        try {
+            return Token::Write($request['oauth_signature_token'], Taikhoan::KEY_ACCOUNT_TOKEN);
+        } catch (\Throwable $th) {
+            return $this->Baoloi(Token::TOKEN_CODE, $th->getMessage() );
+        }
     }
     /**
      * Nhận tham số đầu vào và trả json về cho Client
@@ -105,8 +115,8 @@ class Servers {
      * @param string $messege thông tin lổi báo
      * @param int $code mã lổi
      */
-    protected function Baoloi($messege, $code=null) {
-        return new Baoloi($code, $messege);
+    protected function Baoloi($code=null,$messege) {
+        return new \WP_Error($code, $messege, ['status' => 200]);
     }
     /**
      * Không lưu cache

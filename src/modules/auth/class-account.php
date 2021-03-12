@@ -2,7 +2,6 @@
 
 use inanh86\Controller\Baoloi;
 use inanh86\Modules\Auth\Token;
-use inanh86\DB\DB;
 use WP_User_Query;
 
 if(!defined('ABSPATH')) {
@@ -34,8 +33,9 @@ class Accounts {
                 'status' => true,
                 'username' => $Client->data->display_name,
                 'token' => Token::encodeToken([
-                    'cap' => self::goi_user_meta($Client->ID, 'api_capabilities'),
+                    'roles' => self::goi_user_meta($Client->ID, 'api_capabilities'),
                     'permission' => self::quyen_truy_cap($Client->ID),
+                    
                 ], self::KEY_ACCOUNT_TOKEN ),
             ];
         } else {

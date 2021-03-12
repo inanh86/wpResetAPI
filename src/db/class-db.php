@@ -1,15 +1,26 @@
 <?php namespace inanh86\DB;
 
-use inanh86\Controller\Baoloi;
+if(!defined('ABSPATH')) {
+    exit;
+}
 
 class DB {
-    
-    public $db;
-    public $prefix;
 
-    public function __construct() {
-        global $wpdb;
-        $this->db = $wpdb;
-        $this->prefix = $wpdb->prefix;
+    public $results;
+    public $data = [];
+    const HOANTHANH = 200;
+
+    /**
+     * Thông báo hoàn thành 1 cái gì đó 
+     * @param string $data
+     */
+    public function resouce($data=null) {
+        if(empty($data)) {
+            throw new \Exception("Không được bỏ trống nội dung");
+        }
+        return [
+            'code' => self::HOANTHANH,
+            'messege' => $data,
+        ];
     }
 }

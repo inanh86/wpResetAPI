@@ -14,6 +14,7 @@ class Root {
      * @since 0.1
      */
     public function init() {
+        $this->db();
         $this->include();
         $this->handle_v1_rest_api_request();
         $this->register_resources();
@@ -29,9 +30,14 @@ class Root {
        
         // Auth User
         include_once dirname( __FILE__ )  . '/modules/auth/class-token.php';
+        include_once dirname( __FILE__ )  . '/modules/auth/class-account.php';
+        include_once dirname( __FILE__ )  . '/modules/auth/class-khachhang.php';
         
         // import all modules
-        include_once dirname( __FILE__ )  . '/modules/auth/class-account.php';
+    }
+    protected function db() {
+        include_once dirname( __FILE__ ) . '/db/class-db.php'; //
+		include_once dirname( __FILE__ ) . '/db/class-customer.php'; //
     }
     /**
      * Gọi danh sách Endpoint
@@ -41,6 +47,7 @@ class Root {
     protected function handle_v1_rest_api_request() {
         // All API Requset Endpoint
         include_once dirname( __FILE__ )  . '/routes/class-taikhoan.php';
+        include_once dirname( __FILE__ )  . '/routes/class-khachhang.php'; 
         include_once dirname( __FILE__ )  . '/routes/class-danhmuc.php'; 
     }
     /**
@@ -51,6 +58,7 @@ class Root {
         $api_classes = apply_filters( 'api_new_class',
 			array(
                 '\inanh86\Routes\Taikhoan',
+                '\inanh86\Routes\Khachhang',
                 '\inanh86\Routes\Danhmuc'
 			)
 		);
