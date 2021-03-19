@@ -1,7 +1,6 @@
 <?php namespace inanh86\Modules\Auth;
 
 use \Firebase\JWT\JWT;
-use inanh86\Controller\Baoloi;
 
 if(!defined('ABSPATH')) {
     exit;
@@ -23,12 +22,14 @@ class Token {
      * @since 1.0
      */
     public static function Read($token, $key) {
+
         $read = self::decodeToken($token, $key);
         if($read->permission->read === true ) {
             return $read;
         } else {
             throw new \Exception("Bạn không có quyền truy cập rồi :(");
         }
+
     }
     /**
      * Đọc token từ client kiểm tra xem có quyền ghi/xóa hay không
@@ -36,12 +37,14 @@ class Token {
      * @param string $key
      */
     public static function Write($token, $key) {
-         $token = self::decodeToken($token, $key);
+
+        $token = self::decodeToken($token, $key);
         if ($token->permission->write === true && $token->permission->read === true ) {
             return $token;
         } else {
             throw new \Exception("Bạn không có quyền truy chỉnh sửa nội dung này.");   
         }
+
     }
     /**
      * Encode Token gữi ghi vào db private key và gữi public key cho client
@@ -59,9 +62,24 @@ class Token {
      * @since 1.0
      */
     public static function decodeToken($token, $key) {
-        if(empty($token) || $token === NULL) {
+        if( empty($token) || $token === NULL ) {
             return new \WP_Error(self::TOKEN_CODE, 'Token của bạn không tồn tại.', ['status' => 400]);
         }
         return JWT::decode($token, $key, array('HS256'));
+    }
+    /**
+     * Xử lý token và insert vào db
+     * @param int $id khách hàng hoặc account 
+     * @param array nội dung cần encode để trả về cho client
+     */
+    public static function khoi_tao_token($dbname=null, $id=null, $payload=null, $private_key=null) {
+        global $wpdb;
+        
+        if( empty($token) ) {
+            throw new \Exception("Lổi token không được phép bỏ trống", self::TOKENFAIL);
+        }
+        $token = self::encodeToken($payload, $private_key);
+        $token = explode('.', $token);
+        return $token;
     }
 }

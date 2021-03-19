@@ -15,7 +15,7 @@ class DB {
      * @param string $data
      */
     public function resouce($data=null) {
-        if(empty($data)) {
+        if( empty($data) ) {
             throw new \Exception("Không được bỏ trống nội dung");
         }
         return [

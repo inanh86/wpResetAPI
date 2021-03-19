@@ -13,7 +13,7 @@ if(!defined('ABSPATH')) {
  * @see link
  * @version 1.0
  */
-class Accounts {
+class Accounts extends token {
     
     const KEY_ACCOUNT_TOKEN = 'api_key_account'; // Key encode Token
     const DANG_NHAP_THAT_BAI = 1500; // Đăng nhập thất bại
@@ -32,11 +32,6 @@ class Accounts {
                 // Client
                 'status' => true,
                 'username' => $Client->data->display_name,
-                'token' => Token::encodeToken([
-                    'roles' => self::goi_user_meta($Client->ID, 'api_capabilities'),
-                    'permission' => self::quyen_truy_cap($Client->ID),
-                    
-                ], self::KEY_ACCOUNT_TOKEN ),
             ];
         } else {
             throw new \Exception("Đăng nhập thất bại do tài khoản của bạn không đúng hoặc không tồn tại", self::DANG_NHAP_THAT_BAI);
