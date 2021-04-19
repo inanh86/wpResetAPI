@@ -3,10 +3,6 @@
 use \WP_REST_Server as Maychu;
 use inanh86\Modules\Auth\Token;
 use inanh86\Modules\Auth\Accounts as Taikhoan;
-use inanh86\Controller\Baoloi;
-use \Exception;
-use Throwable;
-use WP_Error;
 
 if(!defined('ABSPATH')) {
     exit;
@@ -14,7 +10,7 @@ if(!defined('ABSPATH')) {
 /**
  * Cấu hình lại Server Request Của Wordpress
  * @see link 
- * @version 
+ * @version 1.0
  */
 class Servers {
     

@@ -97,7 +97,6 @@ class Khachhang extends DB {
             'meta_key' => $meta->key
         ]);
         
-
         // Báo lổi nếu không insert được
         if( !$new_khachang ) {
             throw new Exception("Có lổi trong quá trình xử lý tạo khách hàng mới", self::FAIL_PROSS);   

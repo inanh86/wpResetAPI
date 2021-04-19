@@ -36,8 +36,8 @@ class Root {
         // import all modules
     }
     protected function db() {
-        include_once dirname( __FILE__ ) . '/db/class-db.php'; //
-		include_once dirname( __FILE__ ) . '/db/class-customer.php'; //
+        include_once dirname( __FILE__ ) . '/db/class-db.php';
+		include_once dirname( __FILE__ ) . '/db/class-customer.php';
     }
     /**
      * Gọi danh sách Endpoint
@@ -56,11 +56,11 @@ class Root {
      */
     protected function register_resources() {
         $api_classes = apply_filters( 'api_new_class',
-			array(
+			[
                 '\inanh86\Routes\Taikhoan',
                 '\inanh86\Routes\Khachhang',
                 '\inanh86\Routes\Danhmuc'
-			)
+            ]
 		);
 		foreach ( $api_classes as $api_class ) {
 			$this->$api_class = new $api_class($this->namespace);
