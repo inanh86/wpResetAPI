@@ -10,7 +10,7 @@ if(!defined('ABSPATH')) {
  */
 class Panel {
     public function __construct() {
-        add_action( 'wp_dashboard_setup', [$this, 'init_hook'] );
+        add_action( 'wp_dashboard_setup', [ $this, 'init_hook' ] );
     }   
     public function init_hook() {
         $this->remove_hook();
@@ -31,4 +31,3 @@ class Panel {
 
     }
 }
-return new Panel;
