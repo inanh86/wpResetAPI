@@ -72,9 +72,19 @@ final class WpResetAPI {
 
 		include_once API_ABSPATH . 'src/function-cores.php'; // function Core 
 
+		if(is_admin()) {
+			$this->include_dashbroad();
+		}
+
 		// Khởi chạy API
 		include_once API_ABSPATH . 'src/class-Api.php';
 		$this->API = new \inanh86\Controller\Root();
 		$this->API->init();
     }
+	/**
+	 * Nhập toàn bộ quản vuew/module admin vào đây
+	 */
+	private function include_dashbroad() {
+		include_once API_ABSPATH . 'src/dashbroad/class-panel.php';
+	}
 }
