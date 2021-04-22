@@ -29,6 +29,7 @@ class Khachhang extends Token {
         }
 
         $khach_hang = new Customer();
+        
         if ( !$khach_hang->dang_nhap($id,$pass) ) {
             throw new Exception("Tài khoản hoặc mật khẩu của bạn không đúng!", self::LOGIN_FAIL);
         }

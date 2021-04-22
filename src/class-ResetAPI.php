@@ -11,7 +11,7 @@ final class WpResetAPI {
 	 *
 	 * @var string
 	 */
-    public $version = '0.1';
+    public $version = '1.0.0';
     /**
 	 * The single instance of the class.
 	 *
@@ -72,10 +72,11 @@ final class WpResetAPI {
 
 		include_once API_ABSPATH . 'src/function-cores.php'; // function Core 
 
-		include_once API_ABSPATH . 'src/dashbroad/class-dashbroad.php';
+		include_once API_ABSPATH . 'src/dashboard/class-dashboard.php'; // admin
+
 		
 		if( is_admin() ) {
-			$this->Dashbroad = new \inanh86\DashBroad\Admin();
+			$this->Dashbroad = new \inanh86\DashBoard\Admin();
 			$this->Dashbroad->init();
 		}
 

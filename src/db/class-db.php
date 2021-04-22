@@ -10,6 +10,10 @@ class DB {
     public $data = [];
     const HOANTHANH = 200;
 
+    public function db() {
+        global $wpdb;
+        return $wpdb;
+    }
     /**
      * Thông báo hoàn thành 1 cái gì đó 
      * @param string $data
