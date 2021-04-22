@@ -14,10 +14,7 @@ class Sanpham extends \WP_List_Table {
 			'director' => 'Zach Snyder',
 		),
     ];
-    public function show() {
-        $this->prepare_items();
-    }
-    public function __construct() {
+	public function __construct() {
 		// Set parent defaults.
 		parent::__construct( array(
 			'singular' => 'movie',     // Singular name of the listed records.

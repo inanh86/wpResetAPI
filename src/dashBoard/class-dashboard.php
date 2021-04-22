@@ -50,7 +50,7 @@ class Admin {
      * @see https://developer.wordpress.org/reference/functions/add_menu_page/
      */
     public function listMenu() {
-
+        
         $this->menu = [
             [
                 'title' => 'Danh sách sản phẩm',
@@ -65,7 +65,7 @@ class Admin {
                     'nameSubmenu' => 'Tất cả sản phẩm',
                     'cap' => 'manage_options',
                     'slug' => 'san-pham',
-                    'page' => [__NAMESPACE__ . '\Sanpham']
+                    'page' => [$this, 'sanpham']
                 ]
             ],
             [
@@ -88,5 +88,9 @@ class Admin {
             }
         }
     }
-    
+    public function sanpham() {
+        $this->sanpham = new \inanh86\DashBoard\Sanpham();
+        $this->sanpham->prepare_items();
+        $this->sanpham->display();
+    }
 }
