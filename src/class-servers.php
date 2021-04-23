@@ -1,4 +1,4 @@
-<?php namespace inanh86\Controller;
+<?php namespace inanh86\API;
 
 use \WP_REST_Server as Maychu;
 use inanh86\Modules\Auth\Token;
@@ -74,8 +74,7 @@ class Servers {
      * @param array $route
      */
     protected function router($base=null, $routes) {
-        $router = register_rest_route( $this->namespace, $base, $routes );
-        return $router;
+        register_rest_route( $this->namespace, $base, $routes );
     }
     /**
      * kiểm tra quyền đọc của client

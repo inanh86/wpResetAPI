@@ -7,7 +7,7 @@ if(!defined('ABSPATH')) {
  * Lấy sản phẩm từ API 
  * @since 0.1
  */
-class Danhmuc extends \inanh86\Controller\Servers {
+class Danhmuc extends \inanh86\API\Servers {
 
     protected $base = '/danh-muc';
     protected $ErrorCode = 'api_danhmuc_error';

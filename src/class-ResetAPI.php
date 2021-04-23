@@ -68,21 +68,21 @@ final class WpResetAPI {
 		
 		include_once API_ABSPATH . 'src/class-Install.php'; // File cài đặt khi tiến hành active plugins
 
-		include_once API_ABSPATH . 'src/class-error.php'; // Khai báo lổi nếu có 
+		include_once API_ABSPATH . 'src/class-error.php'; // Khai báo lổi nếu có
+		
+		include_once API_ABSPATH . 'src/class-auth.php'; // Khai báo lổi nếu có
 
 		include_once API_ABSPATH . 'src/function-cores.php'; // function Core 
-
-		include_once API_ABSPATH . 'src/dashboard/class-dashboard.php'; // admin
-
 		
 		if( is_admin() ) {
+			include_once API_ABSPATH . 'src/dashboard/class-dashboard.php'; // admin
 			$this->Dashbroad = new \inanh86\DashBoard\Admin();
 			$this->Dashbroad->init();
 		}
 
 		// Khởi chạy API
 		include_once API_ABSPATH . 'src/class-Api.php';
-		$this->API = new \inanh86\Controller\Root();
+		$this->API = new \inanh86\API\Root();
 		$this->API->init();
     }
 }

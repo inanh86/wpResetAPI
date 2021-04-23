@@ -1,16 +1,25 @@
 <?php namespace inanh86\System;
+
+use \Firebase\JWT\JWT as TOKEN;
+
 defined('ABSPATH') || exit;
 
 /**
- * Thiết lập đăng nhập an toàn
- * @see 
+ * Thiết lập Auth
+ * @see https://dev.inanh86.com/docs/auth
  */
-class Login {
-    
-    public function __construct() {
-        
+class Auth {
+
+    protected $token = "";
+    protected $key = "";
+
+    public function check_token($token=NULL,$key=NULL) {
+
     }
-    
+    public function is_token() {
+
+    }
+    public static function get_role() {
+
+    }
 }
-// Run Lớp này
-return new Login();

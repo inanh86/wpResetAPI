@@ -1,6 +1,6 @@
 <?php namespace inanh86\Routes;
 
-use inanh86\Controller\Servers;
+use inanh86\API\Servers;
 use inanh86\Modules\Auth\Accounts as Client;
 
 if(!defined('ABSPATH')) {

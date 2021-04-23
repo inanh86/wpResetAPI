@@ -14,6 +14,7 @@ class Admin {
         $this->admin_hook_init();
     }
     public function include() {
+        include_once dirname( __FILE__ )  . '/class-menu.php';
         include_once dirname( __FILE__ )  . '/class-panel.php';
         include_once dirname( __FILE__ )  . '/class-sanpham.php';
     }
@@ -21,7 +22,6 @@ class Admin {
      * Danh sách hook admin chạy ngay khi đăng nhập thành công
      */
     public function admin_hook_init() {
-        add_action('admin_menu', [ $this, 'add_menu'] );
         add_action( 'wp_before_admin_bar_render', [$this, 'remove_logo_wp_admin'], 0 );
         add_filter( 'admin_footer_text', '__return_empty_string', 11 );
         add_filter( 'update_footer',    [$this, 'addVersion'], 11 );
@@ -40,6 +40,7 @@ class Admin {
     protected function register_class() {
         $_classes = [
             '\inanh86\DashBoard\Panel',
+            '\inanh86\DashBoard\Menu\Sanpham',
         ];
 		foreach ( $_classes as $_class ) {
 			$this->$_class = new $_class();
@@ -55,7 +56,7 @@ class Admin {
             [
                 'title' => 'Danh sách sản phẩm',
                 'nameMenu' => 'Sản phẩm',
-                'cap' => 'manage_options',
+                'cap' => 'api_shop_manager',
                 'slug' => 'san-pham',
                 'page' => '',
                 'icon' => 'dashicons-screenoptions',
@@ -63,7 +64,7 @@ class Admin {
                 'subMenu' => [
                     'subTitle' => 'Quản lý tất cả sản phẩm',
                     'nameSubmenu' => 'Tất cả sản phẩm',
-                    'cap' => 'manage_options',
+                    'cap' => 'api_shop_manager',
                     'slug' => 'san-pham',
                     'page' => [$this, 'sanpham']
                 ]
@@ -71,7 +72,7 @@ class Admin {
             [
                 'title' => 'Danh sách đơn hàng',
                 'nameMenu' => 'Đơn hàng',
-                'cap' => 'manage_options',
+                'cap' => 'api_shop_staff',
                 'slug' => 'khohang',
                 'page' => 'my_custom_menu_page',
                 'icon' => 'dashicons-cart',
@@ -83,14 +84,9 @@ class Admin {
     public function add_menu() {
         foreach( $this->listMenu() as $menu ) {
             add_menu_page($menu['title'], $menu['nameMenu'],$menu['cap'],$menu['slug'],$menu['page'],$menu['icon'],$menu['position']);
-            if( $menu['subMenu'] !== NULL ) {
+            if( $menu['subMenu'] !== NULL && !empty($menu['subMenu']) ) {
                 add_submenu_page($menu['slug'], $menu['subMenu']['subTitle'], $menu['subMenu']['nameSubmenu'], $menu['subMenu']['cap'], $menu['subMenu']['slug'], $menu['subMenu']['page']);
             }
         }
-    }
-    public function sanpham() {
-        $this->sanpham = new \inanh86\DashBoard\Sanpham();
-        $this->sanpham->prepare_items();
-        $this->sanpham->display();
     }
 }
