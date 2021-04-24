@@ -4,11 +4,18 @@ if(!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Menu Sản phẩm admin
+ * @see 
+ */
 class Sanpham extends \inanh86\DashBoard\Menu\Menu {
 
+	/**
+	 * Add Menu
+	 */
 	public function add_menu() {
 
-		$menu = $this->data_menu([
+		$menu =  $this->data_menu([
 			'title' => 'Danh sách sản phẩm',
 			'nameMenu' => 'Sản phẩm',
 			'cap' => 'api_shop_manager',
@@ -27,14 +34,24 @@ class Sanpham extends \inanh86\DashBoard\Menu\Menu {
 				],
 				[
 					'subTitle' => 'Thêm mới sản phẩm',
-					'nameSubmenu' => 'thêm mới',
+					'nameSubmenu' => 'thêm mới sản phẩm',
 					'cap' => 'api_shop_manager',
 					'slug' => 'san-pham-them-moi',
 					'page' => [$this, 'them_moi_san_pham'],
-					'position' => 1
+					'position' => 2
 				]	
 			]
-		],true);
+		], true );
+		$menu = $this->data_menu([
+			'title' => 'Danh sách sản phẩm',
+			'nameMenu' => 'Kho hàng',
+			'cap' => 'api_shop_manager',
+			'slug' => 'kho-hang',
+			'page' => '',
+			'icon' => 'dashicons-screenoptions',
+			'position' => 4,
+			
+		]);
 		return $menu;
 	}
 	public function danh_sach_san_pham() {

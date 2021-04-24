@@ -12,14 +12,14 @@ class Menu {
     /**
      * Khởi tạo ménu
      */
-    public function data_menu($data=[],$sub=null) {
+    public function data_menu($data=[], $sub = NULL) {
         add_menu_page($data['title'], $data['nameMenu'],$data['cap'],$data['slug'],$data['page'],$data['icon'],$data['position']);
-        if($sub===null) {
-            return;
+        if($sub !== NULL) {
+            foreach($data['submenu'] as $s) {
+                add_submenu_page($data['slug'], $s['subTitle'], $s['nameSubmenu'], $s['cap'], $s['slug'], $s['page'], $s['position']);
+            }
         }
-        foreach($data['submenu'] as $s) {
-            add_submenu_page($s['slug'], $s['subTitle'], $s['nameSubmenu'], $s['cap'], $s['slug'], $s['page'], $s['position']);
-        }
+        
     }
     /**
      * Kiểm tra quyền truy cập Menu
