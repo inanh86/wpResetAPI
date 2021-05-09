@@ -14,7 +14,7 @@ class Sanpham extends \inanh86\DashBoard\Menu\Menu {
 	 * Add Menu
 	 */
 	public function add_menu() {
-
+		
 		$menu =  $this->data_menu([
 			'title' => 'Danh sách sản phẩm',
 			'nameMenu' => 'Sản phẩm',
@@ -55,9 +55,7 @@ class Sanpham extends \inanh86\DashBoard\Menu\Menu {
 		return $menu;
 	}
 	public function danh_sach_san_pham() {
-		?>
-			Hello World
-		<?php
+		$client = \inanh86\System\Auth::get_role();
 	}
 	public function them_moi_san_pham() {
 		?> Thêm mới sản phẩm <?php 

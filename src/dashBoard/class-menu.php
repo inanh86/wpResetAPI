@@ -4,7 +4,7 @@ defined('ABSPATH') || exit;
 
 class Menu {
 
-    protected $role = '';
+    protected $role;
 
     public function __construct() {
         add_action( 'admin_menu', [$this, 'add_menu'] );

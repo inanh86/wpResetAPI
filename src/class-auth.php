@@ -12,6 +12,7 @@ class Auth {
 
     protected $token = "";
     protected $key = "";
+    protected $reuslt;
 
     public function check_token($token=NULL,$key=NULL) {
 
@@ -19,7 +20,12 @@ class Auth {
     public function is_token() {
 
     }
+    /**
+     * Kiểm tra role của Client đang login
+     * @return $role
+     */
     public static function get_role() {
-
+        $role = wp_get_current_user();
+        var_dump($role);
     }
 }

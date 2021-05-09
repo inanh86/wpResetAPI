@@ -46,47 +46,4 @@ class Admin {
 			$this->$_class = new $_class();
 		}
     }
-    /**
-     * Danh sách menu
-     * @see https://developer.wordpress.org/reference/functions/add_menu_page/
-     */
-    public function listMenu() {
-        
-        $this->menu = [
-            [
-                'title' => 'Danh sách sản phẩm',
-                'nameMenu' => 'Sản phẩm',
-                'cap' => 'api_shop_manager',
-                'slug' => 'san-pham',
-                'page' => '',
-                'icon' => 'dashicons-screenoptions',
-                'position' => 3,
-                'subMenu' => [
-                    'subTitle' => 'Quản lý tất cả sản phẩm',
-                    'nameSubmenu' => 'Tất cả sản phẩm',
-                    'cap' => 'api_shop_manager',
-                    'slug' => 'san-pham',
-                    'page' => [$this, 'sanpham']
-                ]
-            ],
-            [
-                'title' => 'Danh sách đơn hàng',
-                'nameMenu' => 'Đơn hàng',
-                'cap' => 'api_shop_staff',
-                'slug' => 'khohang',
-                'page' => 'my_custom_menu_page',
-                'icon' => 'dashicons-cart',
-                'position' => 2,
-            ]
-        ];
-        return $this->menu;
-    }
-    public function add_menu() {
-        foreach( $this->listMenu() as $menu ) {
-            add_menu_page($menu['title'], $menu['nameMenu'],$menu['cap'],$menu['slug'],$menu['page'],$menu['icon'],$menu['position']);
-            if( $menu['subMenu'] !== NULL && !empty($menu['subMenu']) ) {
-                add_submenu_page($menu['slug'], $menu['subMenu']['subTitle'], $menu['subMenu']['nameSubmenu'], $menu['subMenu']['cap'], $menu['subMenu']['slug'], $menu['subMenu']['page']);
-            }
-        }
-    }
 }
